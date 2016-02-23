@@ -1,13 +1,13 @@
 {
-  "name": "appium-javascript-workshop",
-  "description": "Basic workshop for Appium, in JavaScript",
+  "name": "champy-automation-project",
+  "description": "Android automation project using Appium",
   "tags": [
-    "javascript",
-    "workshop",
+    "azinecllc",
+    "champy",
     "appium"
   ],
   "version": "1.0.0",
-  "author": "isaac@saucelabs.com",
+  "authors": "Mike Tyupa & Ilya Sklyarov",
   "repository": {
     "type": "git",
     "url": "https://github.com/appium/javascript-workshop.git"
