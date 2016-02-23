@@ -1,7 +1,7 @@
 <<<<<<< HEAD
-# Appium JavaScript Workshop
+# Champy Automation Project
 
-Appium workshop using JavaScript.
+Azinec LLC
 
 Installation:
 
@@ -137,4 +137,4 @@ grunt test:all:parallel
 
 =======
 # champy-automation-project
->>>>>>> e5fcf2777e52602287f588dc56990ea8f3ac0518
+
