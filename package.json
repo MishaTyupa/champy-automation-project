@@ -1,24 +1,20 @@
 {
-  "name": "appium-javascript-workshop",
+  "name": "Champy automation project",
   "description": "Basic workshop for Appium, in JavaScript",
   "tags": [
-    "javascript",
-    "workshop",
+    "azinecllc",
+    "champy",
     "appium"
   ],
   "version": "1.0.0",
-  "author": "isaac@saucelabs.com",
+  "author": "Misha Tyupa & Ilya Sklyarov",
   "repository": {
     "type": "git",
-    "url": "https://github.com/appium/javascript-workshop.git"
-  },
-  "bugs": {
-    "url": "https://github.com/appium/javascript-workshop/issues"
+    "url": "https://github.com/MishaTyupa/champy-automation-project.git"
   },
   "engines": [
     "node"
   ],
-  "main": "./lib/main.js",
   "directories": {
     "tests": "./tests"
   },
