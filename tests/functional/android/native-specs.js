@@ -2,7 +2,7 @@
 'use strict';
 
 var apps = require('../helpers/apps'),
-   utils = require('../helpers/utils');
+    utils = require('../helpers/utils');
 
 
 describe("android native", function () {
@@ -20,8 +20,8 @@ describe("android native", function () {
 
     it('should login via Facebook', function (done) {
 
-        var sampleEmail = 'drmexanik7@gmail.com',
-            samplePassword = 'asdasdasd';
+        var sampleEmail = 'skill.bereg@gmail.com',
+            samplePassword = 'federikofellini1920';
 
         this.driver
             .elementById('com.example.ivan.champy_v2:id/login_button')
@@ -29,9 +29,21 @@ describe("android native", function () {
             .setImplicitWaitTimeout(60000)
             .elementById('com.facebook.katana:id/login_username')
             .sendKeys(sampleEmail)
+            .click()
             .elementById('com.facebook.katana:id/login_password')
             .sendKeys(samplePassword)
             .elementById('com.facebook.katana:id/login_login')
+            .click()
+            .nodeify(done);
+
+    });
+
+    it('should redirect to Friends', function (done) {
+
+        this.driver
+            .elementByClassName('android.widget.ImageButton')
+            .click()
+            .elementByName('Friends')
             .click()
             .nodeify(done);
 
@@ -48,5 +60,4 @@ describe("android native", function () {
             .nodeify(done);
 
     })
-
 });
