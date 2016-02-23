@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Champy Automation Project
 
 Azinec LLC
@@ -6,8 +6,8 @@ Azinec LLC
 Installation:
 
 ```shell
-git clone git@github.com:imurchie/javascript-workshop.git
-cd javascript-workshop
+git clone https://github.com/MishaTyupa/champy-automation-project.git
+cd champy-automation-project
 npm install
 grunt
 ```
@@ -135,6 +135,6 @@ grunt test:ios:parallel
 grunt test:all:parallel
 ```
 
-=======
+
 # champy-automation-project
 
