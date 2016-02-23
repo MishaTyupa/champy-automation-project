@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Appium JavaScript Workshop
 
 Appium workshop using JavaScript.
@@ -134,3 +135,6 @@ grunt test:ios:parallel
 grunt test:all:parallel
 ```
 
+=======
+# champy-automation-project
+>>>>>>> e5fcf2777e52602287f588dc56990ea8f3ac0518
