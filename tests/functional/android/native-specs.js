@@ -17,11 +17,12 @@ describe("android native", function () {
 
     after(utils.after);
 
+    /*
 
     it('should login via Facebook', function (done) {
 
         var sampleEmail = 'skill.bereg@gmail.com',
-            samplePassword = 'federikofellini1920';
+            samplePassword = '';
 
         this.driver
             .elementById('com.example.ivan.champy_v2:id/login_button')
@@ -37,14 +38,42 @@ describe("android native", function () {
             .nodeify(done);
 
     });
+    */
 
     it('should redirect to Friends', function (done) {
 
         this.driver
+            .elementById('com.example.ivan.champy_v2:id/login_button')
+            .click()
+            .sleep(8000)
             .elementByClassName('android.widget.ImageButton')
             .click()
             .elementByName('Friends')
             .click()
+
+            .setImplicitWaitTimeout(5000)
+            .nodeify(done);
+
+    });
+
+    it('should redirect to Pending', function (done) {
+
+        this.driver
+            .elementByName('Pending')
+            .click()
+      //      .scrollTo("My friend number 19")
+      //      .setImplicitWaitTimeout(5000)
+            .nodeify(done);
+
+    });
+
+    it('should redirect to Other', function (done) {
+
+        this.driver
+            .elementByName('Other')
+            .click()
+     //       .scrollTo("My friend number 19")
+     //      .setImplicitWaitTimeout(5000)
             .nodeify(done);
 
     });
