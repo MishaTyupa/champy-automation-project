@@ -42,8 +42,29 @@ describe("android native", function () {
 
         this.driver
             .elementByClassName('android.widget.ImageButton')
+            .sleep(4000)
             .click()
             .elementByName('Friends')
+            .click()
+            //     SCROLLING PROBLEM
+    //      .execute("mobile: scroll", [{direction: 'down', element: "My friend number 7"}])
+            .nodeify(done);
+
+    });
+
+    it('should redirect to Pending', function (done) {
+
+        this.driver
+            .elementByName('Pending')
+            .click()
+            .nodeify(done);
+
+    });
+
+    it('should redirect to Other', function (done) {
+
+        this.driver
+            .elementByName('Other')
             .click()
             .nodeify(done);
 
@@ -58,6 +79,5 @@ describe("android native", function () {
             .click()
             .sleep(2000)
             .nodeify(done);
-
     })
 });
