@@ -10,10 +10,7 @@
   "authors": "Mike Tyupa & Ilya Sklyarov",
   "repository": {
     "type": "git",
-    "url": "https://github.com/appium/javascript-workshop.git"
-  },
-  "bugs": {
-    "url": "https://github.com/appium/javascript-workshop/issues"
+    "url": "https://github.com/MishaTyupa/champy-automation-project.git"
   },
   "engines": [
     "node"
