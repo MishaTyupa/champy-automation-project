@@ -18,7 +18,6 @@ describe("android native", function () {
     after(utils.after);
 
     it('should run the app', function (done) {
-
         this.driver
             .elementById('com.example.ivan.champy_v2:id/login_button')
             .isDisplayed()
@@ -26,7 +25,6 @@ describe("android native", function () {
     });
 
     it('should check if champy logo is present and displayed', function (done) {
-
         this.driver
             .elementById('com.example.ivan.champy_v2:id/Champy_image')
             .should.eventually.exist
@@ -35,7 +33,6 @@ describe("android native", function () {
     });
 
     it('should check text on login screen', function (done) {
-
         this.driver
             .elementByName('CHAMPY HELPS YOU IMPROVE')
             .should.eventually.exist
@@ -45,27 +42,24 @@ describe("android native", function () {
 
 
     it('should login via Facebook', function (done) {
-
-       var sampleEmail = 'skill.bereg@gmail.com',
-           samplePassword = 'federikofellini1920';
+        //var sampleEmail = 'skill.bereg@gmail.com',
+        //    samplePassword = 'federikofellini1920';
 
         this.driver
             .elementById('com.example.ivan.champy_v2:id/login_button')
             .click()
             .setImplicitWaitTimeout(60000)
-            .elementById('com.facebook.katana:id/login_username')
-            .sendKeys(sampleEmail)
-            .click()
-            .elementById('com.facebook.katana:id/login_password')
-            .sendKeys(samplePassword)
-            .elementById('com.facebook.katana:id/login_login')
-            .click()
+            //.elementById('com.facebook.katana:id/login_username')
+            //.sendKeys(sampleEmail)
+            //.click()
+            //.elementById('com.facebook.katana:id/login_password')
+            //.sendKeys(samplePassword)
+            //.elementById('com.facebook.katana:id/login_login')
+            //.click()
             .nodeify(done);
-
     });
 
     it('progress bar for Challenges is present on the home screen', function (done) {
-
         this.driver
             .elementById('com.example.ivan.champy_v2:id/textView2')
             .should.eventually.exist
@@ -77,7 +71,6 @@ describe("android native", function () {
     });
 
     it('progress bar for Wins is present on the home screen', function (done) {
-
         this.driver
             .elementById('com.example.ivan.champy_v2:id/textView3')
             .should.eventually.exist
@@ -89,7 +82,6 @@ describe("android native", function () {
     });
 
     it('progress bar for Total is present on the home screen', function (done) {
-
         this.driver
             .elementById('com.example.ivan.champy_v2:id/textView4')
             .should.eventually.exist
@@ -100,14 +92,15 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-  /*
-    it('swiping the slider', function (done) {
 
+    it('swiping the slider', function (done) {
         this.driver
-            .TouchAction().press(el0).moveTo(el1).release()
-            .nodeify(done);
+            .elementById("com.example.ivan.champy_v2:id/cardImage")
+            .setImplicitWaitTimeout(60000)
+            .flick(114, 383, 3000, function (err) {
+                throw new Error(err);
+            }).nodeify(done);
     });
-*/
 
 
     it('should open and close blured window', function (done) {
@@ -122,7 +115,6 @@ describe("android native", function () {
     });
 
     it('Challenges label is present in the sidemenu', function (done) {
-
         this.driver
             .elementByClassName('android.widget.ImageButton')
             .click()
@@ -133,7 +125,6 @@ describe("android native", function () {
     });
 
     it('Friends label is present in the sidemenu', function (done) {
-
         this.driver
             .elementByName('Friends')
             .should.eventually.exist
@@ -142,7 +133,6 @@ describe("android native", function () {
     });
 
     it('History label is present in the sidemenu', function (done) {
-
         this.driver
             .elementByName('History')
             .should.eventually.exist
@@ -151,7 +141,6 @@ describe("android native", function () {
     });
 
     it('Settings label is present in the sidemenu', function (done) {
-
         this.driver
             .elementByName('Settings')
             .should.eventually.exist
@@ -160,7 +149,6 @@ describe("android native", function () {
     });
 
     it('Share label is present in the sidemenu', function (done) {
-
         this.driver
             .elementByName('Share')
             .should.eventually.exist
@@ -169,7 +157,6 @@ describe("android native", function () {
     });
 
     it('Logout label is present in the sidemenu', function (done) {
-
         this.driver
             .elementByName('Logout')
             .should.eventually.exist
@@ -178,7 +165,6 @@ describe("android native", function () {
     });
 
     it('Profile picture is present in the sidemenu', function (done) {
-
         this.driver
             .elementById('com.example.ivan.champy_v2:id/profile_image')
             .should.eventually.exist
@@ -191,59 +177,59 @@ describe("android native", function () {
             .elementByName('Friends')
             .click()
             .nodeify(done);
+    });
 
+    it('should scroll to bottom', function (done) {
+        this.driver
+            .elementByName('My friend number 0')
+            .setImplicitWaitTimeout(60000)
+            .flick(400, 200, 5000, function (err) {
+                throw new Error(err);
+            })
+
+            .nodeify(done);
     });
 
     it('should delete friend', function (done) {
-
         this.driver
             .elementByName('My friend number 0')
             .click()
             .elementById('com.example.ivan.champy_v2:id/imageButton2')
             .click()
-
-     //      CHECKING IF DELETED ELEMENT EXISTS
-     //     .should.not.exist
-     //     .isDisplayed('My friend number 0')
-     //     .execute("mobile: scroll", [{direction: 'down', element: "My friend number 7"}])
+            //      CHECKING IF DELETED ELEMENT EXISTS
+            //     .should.not.exist
+            //     .isDisplayed('My friend number 0')
+            //     .execute("mobile: scroll", [{direction: 'down', element: "My friend number 7"}])
             .nodeify(done);
-
     });
 
     it('should redirect to Pending', function (done) {
-
         this.driver
             .elementByName('Pending')
             .click()
 
-     //     SCROLLING
-     //     .execute("mobile: scroll", [{direction: 'down'}])
+            //     SCROLLING
+            //     .execute("mobile: scroll", [{direction: 'down'}])
             .nodeify(done);
-
     });
 
     it('should redirect to Other', function (done) {
-
         this.driver
             .elementByName('Other')
             .click()
             .nodeify(done);
-
     });
 
     it('should enter Settings page', function (done) {
-
         this.driver
             .elementByClassName('android.widget.ImageButton')
             .click()
             .elementByName('Settings')
             .click()
             .nodeify(done);
-
     });
 
     it('General label in Settings', function (done) {
-
         this.driver
             .elementByName('General:')
             .should.eventually.exist
@@ -252,7 +238,6 @@ describe("android native", function () {
     });
 
     it('Notifications label in Settings', function (done) {
-
         this.driver
             .elementByName('Notifications:')
             .should.eventually.exist
@@ -261,7 +246,6 @@ describe("android native", function () {
     });
 
     it('Legal label in Settings', function (done) {
-
         this.driver
             .elementByName('Legal:')
             .should.eventually.exist
@@ -271,7 +255,6 @@ describe("android native", function () {
 
 
     it('should logout from Champy', function (done) {
-
         this.driver
             .back()
             .elementByAccessibilityId('Open navigation drawer')
@@ -283,7 +266,6 @@ describe("android native", function () {
     });
 
     it('should go to main screen after logout', function (done) {
-
         this.driver
             .elementById('com.example.ivan.champy_v2:id/login_button')
             .isDisplayed()
