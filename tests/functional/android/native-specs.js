@@ -18,7 +18,6 @@ describe("android native", function () {
     after(utils.after);
 
     it('should run the app', function (done) {
-
         this.driver
             .elementById('com.example.ivan.champy_v2:id/login_button')
             .isDisplayed()
@@ -26,7 +25,6 @@ describe("android native", function () {
     });
 
     it('should check if champy logo is present and displayed', function (done) {
-
         this.driver
             .elementById('com.example.ivan.champy_v2:id/Champy_image')
             .should.eventually.exist
@@ -35,7 +33,6 @@ describe("android native", function () {
     });
 
     it('should check text on login screen', function (done) {
-
         this.driver
             .elementByName('CHAMPY HELPS YOU IMPROVE')
             .should.eventually.exist
@@ -46,20 +43,20 @@ describe("android native", function () {
 
     it('should login via Facebook', function (done) {
 
-       var sampleEmail = 'skill.bereg@gmail.com',
-           samplePassword = 'federikofellini1920';
+       //var sampleEmail = 'skill.bereg@gmail.com',
+       //    samplePassword = 'federikofellini1920';
 
         this.driver
             .elementById('com.example.ivan.champy_v2:id/login_button')
             .click()
             .setImplicitWaitTimeout(60000)
-            .elementById('com.facebook.katana:id/login_username')
-            .sendKeys(sampleEmail)
-            .click()
-            .elementById('com.facebook.katana:id/login_password')
-            .sendKeys(samplePassword)
-            .elementById('com.facebook.katana:id/login_login')
-            .click()
+            //.elementById('com.facebook.katana:id/login_username')
+            //.sendKeys(sampleEmail)
+            //.click()
+            //.elementById('com.facebook.katana:id/login_password')
+            //.sendKeys(samplePassword)
+            //.elementById('com.facebook.katana:id/login_login')
+            //.click()
             .nodeify(done);
 
     });
@@ -86,6 +83,7 @@ describe("android native", function () {
             .should.eventually.exist
             .isDisplayed()
             .nodeify(done);
+
     });
 
     it('progress bar for Total is present on the home screen', function (done) {
@@ -100,14 +98,16 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-  /*
+
     it('swiping the slider', function (done) {
 
         this.driver
-            .TouchAction().press(el0).moveTo(el1).release()
+            .flick(114,382,3000,function(err){
+                new Error(err);
+            })
             .nodeify(done);
     });
-*/
+
 
 
     it('should open and close blured window', function (done) {
@@ -194,30 +194,36 @@ describe("android native", function () {
 
     });
 
-    it('should delete friend', function (done) {
-
+    it('scroll to bottom Friend', function (done) {
         this.driver
-            .elementByName('My friend number 0')
-            .click()
-            .elementById('com.example.ivan.champy_v2:id/imageButton2')
-            .click()
+            .flick(384,261,5000,function(err){
+                new Error(err);
+            })
+            .setImplicitWaitTimeout(60000)
+            .nodeify(done);
+    });
+
+    //it('should delete friend', function (done) {
+    //
+    //    this.driver
+    //        .elementByName('My friend number 0')
+    //        .click()
+    //        .elementById('com.example.ivan.champy_v2:id/imageButton2')
+    //        .click()
 
      //      CHECKING IF DELETED ELEMENT EXISTS
      //     .should.not.exist
      //     .isDisplayed('My friend number 0')
      //     .execute("mobile: scroll", [{direction: 'down', element: "My friend number 7"}])
-            .nodeify(done);
-
-    });
+    //        .nodeify(done);
+    //
+    //});
 
     it('should redirect to Pending', function (done) {
 
         this.driver
             .elementByName('Pending')
             .click()
-
-     //     SCROLLING
-     //     .execute("mobile: scroll", [{direction: 'down'}])
             .nodeify(done);
 
     });
