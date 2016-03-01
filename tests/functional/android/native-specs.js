@@ -100,15 +100,25 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-  /*
-    it('swiping the slider', function (done) {
-
+    it('swiping the slider to the right', function (done) {
         this.driver
-            .TouchAction().press(el0).moveTo(el1).release()
+            .elementById("com.example.ivan.champy_v2:id/cardImage")
+            .flick(200, 0, 50, function (err) {
+                throw new Error(err);})
             .nodeify(done);
     });
-*/
 
+    /*
+    it('swiping the slider to the left', function (done) {
+        this.driver
+            .elementById("com.example.ivan.champy_v2:id/cardImage")
+            .setImplicitWaitTimeout(60000)
+            .flick(900, 0, 500, function (err) {
+                throw new Error(err);})
+            .sleep(3000)
+            .nodeify(done);
+    });
+    */
 
     it('should open and close blured window', function (done) {
         this.driver
@@ -194,18 +204,36 @@ describe("android native", function () {
 
     });
 
+    it('should scroll down', function (done) {
+
+        this.driver
+            .elementByName('My friend number 3')
+            .flick(0,-150, 500, function (err) {
+                throw new Error(err);
+            });
+
+        this.driver
+            .elementByName('My friend number 6')
+            .sleep(3000)
+            .flick(0,-150, 500, function (err) {
+                throw new Error(err);
+            })
+            .nodeify(done);
+    });
+
+
     it('should delete friend', function (done) {
 
         this.driver
-            .elementByName('My friend number 0')
+            .elementByName('My friend number 7')
             .click()
             .elementById('com.example.ivan.champy_v2:id/imageButton2')
             .click()
 
-     //      CHECKING IF DELETED ELEMENT EXISTS
-     //     .should.not.exist
-     //     .isDisplayed('My friend number 0')
-     //     .execute("mobile: scroll", [{direction: 'down', element: "My friend number 7"}])
+            //      CHECKING IF DELETED ELEMENT EXISTS
+            //     .should.not.exist
+            //     .isDisplayed('My friend number 0')
+            //     .execute("mobile: scroll", [{direction: 'down', element: "My friend number 7"}])
             .nodeify(done);
 
     });
