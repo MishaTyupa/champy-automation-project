@@ -2,9 +2,9 @@
 'use strict';
 
 var apps = require('../helpers/apps'),
-    assert = require('assert'),
     fs = require('fs'),
-    utils = require('../helpers/utils');
+    utils = require('../helpers/utils'),
+    elements = require('../helpers/elements');
 
 
 describe("android native", function () {
@@ -21,16 +21,27 @@ describe("android native", function () {
 
     it('should run the app', function (done) {
         this.driver
-            .elementById('com.example.ivan.champy_v2:id/login_button')
+            .elementById(elements.loginButton)
             .isDisplayed()
             .nodeify(done);
     });
 
-    it('should check if champy logo is present and displayed', function (done) {
+    it('should check if champy logo is present', function (done) {
         this.driver
-            .elementById('com.example.ivan.champy_v2:id/Champy_image')
+            .elementById(elements.champyLogo)
             .should.eventually.exist
             .isDisplayed()
+            .nodeify(done);
+    });
+
+    it('should make screenshot of login screen', function (done) {
+        this.driver
+            .takeScreenshot().then(function (data) {
+                var base64Data = data.replace(/^data:image\/png;base64,/,"");
+                fs.writeFile("snapshots/out.png", base64Data, 'base64', function (err) {
+                    if (err) console.log(err);
+                });
+            })
             .nodeify(done);
     });
 
@@ -45,20 +56,20 @@ describe("android native", function () {
 
     it('should login via Facebook', function (done) {
 
-        //  var sampleEmail = 'skill.bereg@gmail.com',
-        //     samplePassword = 'federikofellini1920';
+          var sampleEmail = 'skill.bereg@gmail.com',
+             samplePassword = 'federikofellini1920';
 
         this.driver
-            .elementById('com.example.ivan.champy_v2:id/login_button')
+            .elementById(elements.loginButton)
             .click()
             .setImplicitWaitTimeout(60000)
-            //   .elementById('com.facebook.katana:id/login_username')
-            //   .sendKeys(sampleEmail)
-            //  .click()
-            //  .elementById('com.facebook.katana:id/login_password')
-            //  .sendKeys(samplePassword)
-            //   .elementById('com.facebook.katana:id/login_login')
-            //   .click()
+            .elementById(elements.fbLoginField)
+            .sendKeys(sampleEmail)
+            .click()
+            .elementById(elements.fbPasswordField)
+            .sendKeys(samplePassword)
+            .elementById(elements.fbLoginButton)
+            .click()
             .nodeify(done);
 
     });
@@ -66,7 +77,7 @@ describe("android native", function () {
     it('progress bar for Challenges is present on the home screen', function (done) {
 
         this.driver
-            .elementById('com.example.ivan.champy_v2:id/textView2')
+            .elementById(elements.challengeBar)
             .should.eventually.exist
             .isDisplayed()
             .elementByName('Challenges')
@@ -78,7 +89,7 @@ describe("android native", function () {
     it('progress bar for Wins is present on the home screen', function (done) {
 
         this.driver
-            .elementById('com.example.ivan.champy_v2:id/textView3')
+            .elementById(elements.winsBar)
             .should.eventually.exist
             .isDisplayed()
             .elementByName('Wins')
@@ -91,7 +102,7 @@ describe("android native", function () {
     it('progress bar for Total is present on the home screen', function (done) {
 
         this.driver
-            .elementById('com.example.ivan.champy_v2:id/textView4')
+            .elementById(elements.totalBar)
             .should.eventually.exist
             .isDisplayed()
             .elementByName('Total')
@@ -101,9 +112,10 @@ describe("android native", function () {
     });
 
 
+
     it('swiping slider to the right', function (done) {
         this.driver
-            .elementById("com.example.ivan.champy_v2:id/cardImage")
+            .elementById(elements.sliderCard)
             .flick(200, 0, 50, function (err) {
                 throw new Error(err);
             })
@@ -112,7 +124,7 @@ describe("android native", function () {
 
     it('swiping slider to the left', function (done) {
         this.driver
-            .elementById("com.example.ivan.champy_v2:id/cardImage")
+            .elementById(elements.sliderCard)
             .flick(-272, 0, 50, function (err) {
                 throw new Error(err);
             })
@@ -121,10 +133,10 @@ describe("android native", function () {
 
     it('should open and close blured window', function (done) {
         this.driver
-            .elementById('com.example.ivan.champy_v2:id/imageButton')
+            .elementById(elements.plusButton)
             .click()
             .sleep(3000)
-            .elementById('com.example.ivan.champy_v2:id/imageButton')
+            .elementById(elements.plusButton)
             .click()
             .nodeify(done);
 
@@ -133,9 +145,9 @@ describe("android native", function () {
     it('Challenges label is present in the sidemenu', function (done) {
 
         this.driver
-            .elementByClassName('android.widget.ImageButton')
+            .elementByClassName(elements.sidemenuButton)
             .click()
-            .elementByName('Challenges')
+            .elementByName(elements.labelChallenges)
             .should.eventually.exist
             .isDisplayed()
             .nodeify(done);
@@ -144,7 +156,7 @@ describe("android native", function () {
     it('Friends label is present in the sidemenu', function (done) {
 
         this.driver
-            .elementByName('Friends')
+            .elementByName(elements.labelFriends)
             .should.eventually.exist
             .isDisplayed()
             .nodeify(done);
@@ -153,7 +165,7 @@ describe("android native", function () {
     it('History label is present in the sidemenu', function (done) {
 
         this.driver
-            .elementByName('History')
+            .elementByName(elements.labelHistory)
             .should.eventually.exist
             .isDisplayed()
             .nodeify(done);
@@ -162,7 +174,7 @@ describe("android native", function () {
     it('Settings label is present in the sidemenu', function (done) {
 
         this.driver
-            .elementByName('Settings')
+            .elementByName(elements.labelSettings)
             .should.eventually.exist
             .isDisplayed()
             .nodeify(done);
@@ -171,7 +183,7 @@ describe("android native", function () {
     it('Share label is present in the sidemenu', function (done) {
 
         this.driver
-            .elementByName('Share')
+            .elementByName(elements.labelShare)
             .should.eventually.exist
             .isDisplayed()
             .nodeify(done);
@@ -180,7 +192,7 @@ describe("android native", function () {
     it('Logout label is present in the sidemenu', function (done) {
 
         this.driver
-            .elementByName('Logout')
+            .elementByName(elements.labelLogout)
             .should.eventually.exist
             .isDisplayed()
             .nodeify(done);
@@ -189,24 +201,28 @@ describe("android native", function () {
     it('Profile picture is present in the sidemenu', function (done) {
 
         this.driver
-            .elementById('com.example.ivan.champy_v2:id/profile_image')
+            .elementById(elements.profileImage)
             .should.eventually.exist
             .isDisplayed()
-            .takeScreenshot().then(function (data) {
-                var base64Data = data.replace(/^data:image\/png;base64,/,"");
-                fs.writeFile("out.png", base64Data, 'base64', function (err) {
-                    if (err) console.log(err);
-                });
-            })
             .nodeify(done);
     });
 
     it('should redirect to Friends', function (done) {
         this.driver
-            .elementByName('Friends')
+            .elementByName(elements.labelFriends)
             .click()
             .nodeify(done);
 
+    });
+
+    it('should open and close blured window in Friends', function (done) {
+        this.driver
+            .elementById(elements.plusButton)
+            .click()
+            .sleep(3000)
+            .elementById(elements.plusButton)
+            .click()
+            .nodeify(done);
     });
 
     it('should scroll down', function (done) {
@@ -219,6 +235,10 @@ describe("android native", function () {
             .nodeify(done);
     });
 
+    //it('should check + is not present', function (done) {
+    //        .nodeify(done);
+    //});
+
     it('should scroll up', function (done) {
 
         this.driver
@@ -226,6 +246,7 @@ describe("android native", function () {
             .flick(0, 350, 50, function (err) {
                 throw new Error(err);
             })
+            .sleep(2000)
             .nodeify(done);
     });
 
@@ -235,21 +256,20 @@ describe("android native", function () {
         this.driver
             .elementByName('My friend number 5')
             .click()
-            .elementById('com.example.ivan.champy_v2:id/imageButton2')
+            .elementById(elements.deleteFriendButton)
             .click()
-
             //      CHECKING IF DELETED ELEMENT EXISTS
             //     .should.not.exist
             //     .isDisplayed('My friend number 0')
             //     .execute("mobile: scroll", [{direction: 'down', element: "My friend number 7"}])
-            .nodeify(done);
+           .nodeify(done);
 
     });
 
     it('should redirect to Pending', function (done) {
 
         this.driver
-            .elementByName('Pending')
+            .elementByName(elements.pendingFriends)
             .click()
             .nodeify(done);
 
@@ -258,7 +278,7 @@ describe("android native", function () {
     it('should redirect to Other', function (done) {
 
         this.driver
-            .elementByName('Other')
+            .elementByName(elements.otherFriends)
             .click()
             .nodeify(done);
 
@@ -267,9 +287,9 @@ describe("android native", function () {
     it('should enter Settings page', function (done) {
 
         this.driver
-            .elementByClassName('android.widget.ImageButton')
+            .elementByClassName(elements.sidemenuButton)
             .click()
-            .elementByName('Settings')
+            .elementByName(elements.labelSettings)
             .click()
             .nodeify(done);
 
@@ -278,7 +298,7 @@ describe("android native", function () {
     it('General label in Settings', function (done) {
 
         this.driver
-            .elementByName('General:')
+            .elementByName(elements.labelGeneral)
             .should.eventually.exist
             .isDisplayed()
             .nodeify(done);
@@ -287,7 +307,7 @@ describe("android native", function () {
     it('Notifications label in Settings', function (done) {
 
         this.driver
-            .elementByName('Notifications:')
+            .elementByName(elements.labelNotifications)
             .should.eventually.exist
             .isDisplayed()
             .nodeify(done);
@@ -296,10 +316,99 @@ describe("android native", function () {
     it('Legal label in Settings', function (done) {
 
         this.driver
-            .elementByName('Legal:')
+            .elementByName(elements.labelLegal)
             .should.eventually.exist
             .isDisplayed()
             .nodeify(done);
+    });
+
+
+    it('Turning on Push Notifications', function (done) {
+
+        this.driver
+            .elementById(elements.switchPushNotifications)
+            .click()
+            .nodeify(done);
+    });
+
+    it('Turning on New Challenge Requests', function (done) {
+
+        this.driver
+            .elementById(elements.switchChallengeRequests)
+            .click()
+            .nodeify(done);
+    });
+
+    it('Turning on Accepted Your Challenge', function (done) {
+
+        this.driver
+            .elementById(elements.switchAcceptedYourChallenge)
+            .click()
+            .nodeify(done);
+    });
+
+    it('Turning on Challenge End', function (done) {
+
+        this.driver
+            .elementById(elements.switchChallengeEnd)
+            .click()
+            .nodeify(done);
+    });
+
+    it('Turning off Push Notifications', function (done) {
+
+        if(this.driver.elementById(elements.switchPushNotifications).isSelected()){
+        this.driver
+            .elementById(elements.switchPushNotifications)
+            .click()
+            .nodeify(done);
+        }
+        else {
+            console.log("Error")
+                .nodeify(done);
+        }
+    });
+
+    it('Turning off New Challenge Requests', function (done) {
+
+        if(this.driver.elementById(elements.switchChallengeRequests).isSelected()){
+            this.driver
+                .elementById(elements.switchChallengeRequests)
+                .click()
+                .nodeify(done);
+        }
+        else {
+            console.log("Error")
+                .nodeify(done);
+        }
+    });
+
+    it('Turning off Accepted Your Challenge', function (done) {
+
+        if(this.driver.elementById(elements.switchAcceptedYourChallenge).isSelected()){
+            this.driver
+                .elementById(elements.switchAcceptedYourChallenge)
+                .click()
+                .nodeify(done);
+        }
+        else {
+            console.log("Error")
+                .nodeify(done);
+        }
+    });
+
+    it('Turning off Challenge End', function (done) {
+
+        if(this.driver.elementById(elements.switchChallengeEnd).isSelected()){
+            this.driver
+                .elementById(elements.switchChallengeEnd)
+                .click()
+                .nodeify(done);
+        }
+        else {
+            console.log("Error")
+                .nodeify(done);
+        }
     });
 
 
@@ -307,9 +416,9 @@ describe("android native", function () {
 
         this.driver
             .back()
-            .elementByAccessibilityId('Open navigation drawer')
+            .elementByClassName(elements.sidemenuButton)
             .click()
-            .elementByName('Logout')
+            .elementByName(elements.labelLogout)
             .click()
             .sleep(2000)
             .nodeify(done);
@@ -318,7 +427,7 @@ describe("android native", function () {
     it('should go to main screen after logout', function (done) {
 
         this.driver
-            .elementById('com.example.ivan.champy_v2:id/login_button')
+            .elementById(elements.loginButton)
             .isDisplayed()
             .nodeify(done);
     });
