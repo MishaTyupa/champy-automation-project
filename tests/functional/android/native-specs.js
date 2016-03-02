@@ -2,6 +2,8 @@
 'use strict';
 
 var apps = require('../helpers/apps'),
+    assert = require('assert'),
+    fs = require('fs'),
     utils = require('../helpers/utils');
 
 
@@ -43,20 +45,20 @@ describe("android native", function () {
 
     it('should login via Facebook', function (done) {
 
-       //var sampleEmail = 'skill.bereg@gmail.com',
-       //    samplePassword = 'federikofellini1920';
+        //  var sampleEmail = 'skill.bereg@gmail.com',
+        //     samplePassword = 'federikofellini1920';
 
         this.driver
             .elementById('com.example.ivan.champy_v2:id/login_button')
             .click()
             .setImplicitWaitTimeout(60000)
-            //.elementById('com.facebook.katana:id/login_username')
-            //.sendKeys(sampleEmail)
-            //.click()
-            //.elementById('com.facebook.katana:id/login_password')
-            //.sendKeys(samplePassword)
-            //.elementById('com.facebook.katana:id/login_login')
-            //.click()
+            //   .elementById('com.facebook.katana:id/login_username')
+            //   .sendKeys(sampleEmail)
+            //  .click()
+            //  .elementById('com.facebook.katana:id/login_password')
+            //  .sendKeys(samplePassword)
+            //   .elementById('com.facebook.katana:id/login_login')
+            //   .click()
             .nodeify(done);
 
     });
@@ -99,26 +101,23 @@ describe("android native", function () {
     });
 
 
-    it('swiping the slider to the right', function (done) {
+    it('swiping slider to the right', function (done) {
         this.driver
             .elementById("com.example.ivan.champy_v2:id/cardImage")
             .flick(200, 0, 50, function (err) {
-                throw new Error(err);})
+                throw new Error(err);
+            })
             .nodeify(done);
     });
 
-
-    /*
-    it('swiping the slider to the left', function (done) {
+    it('swiping slider to the left', function (done) {
         this.driver
             .elementById("com.example.ivan.champy_v2:id/cardImage")
-            .setImplicitWaitTimeout(60000)
-            .flick(900, 0, 500, function (err) {
-                throw new Error(err);})
-            .sleep(3000)
+            .flick(-272, 0, 50, function (err) {
+                throw new Error(err);
+            })
             .nodeify(done);
     });
-    */
 
     it('should open and close blured window', function (done) {
         this.driver
@@ -193,6 +192,12 @@ describe("android native", function () {
             .elementById('com.example.ivan.champy_v2:id/profile_image')
             .should.eventually.exist
             .isDisplayed()
+            .takeScreenshot().then(function (data) {
+                var base64Data = data.replace(/^data:image\/png;base64,/,"");
+                fs.writeFile("out.png", base64Data, 'base64', function (err) {
+                    if (err) console.log(err);
+                });
+            })
             .nodeify(done);
     });
 
@@ -204,19 +209,21 @@ describe("android native", function () {
 
     });
 
-<<<<<<< HEAD
     it('should scroll down', function (done) {
 
         this.driver
             .elementByName('My friend number 3')
-            .flick(0,-150, 500, function (err) {
+            .flick(0, -350, 50, function (err) {
                 throw new Error(err);
-            });
+            })
+            .nodeify(done);
+    });
+
+    it('should scroll up', function (done) {
 
         this.driver
-            .elementByName('My friend number 6')
-            .sleep(3000)
-            .flick(0,-150, 500, function (err) {
+            .elementByName('My friend number 3')
+            .flick(0, 350, 50, function (err) {
                 throw new Error(err);
             })
             .nodeify(done);
@@ -226,7 +233,7 @@ describe("android native", function () {
     it('should delete friend', function (done) {
 
         this.driver
-            .elementByName('My friend number 7')
+            .elementByName('My friend number 5')
             .click()
             .elementById('com.example.ivan.champy_v2:id/imageButton2')
             .click()
@@ -238,32 +245,6 @@ describe("android native", function () {
             .nodeify(done);
 
     });
-=======
-    it('scroll to bottom Friend', function (done) {
-        this.driver
-            .flick(384,261,5000,function(err){
-                new Error(err);
-            })
-            .setImplicitWaitTimeout(60000)
-            .nodeify(done);
-    });
-
-    //it('should delete friend', function (done) {
-    //
-    //    this.driver
-    //        .elementByName('My friend number 0')
-    //        .click()
-    //        .elementById('com.example.ivan.champy_v2:id/imageButton2')
-    //        .click()
-
-     //      CHECKING IF DELETED ELEMENT EXISTS
-     //     .should.not.exist
-     //     .isDisplayed('My friend number 0')
-     //     .execute("mobile: scroll", [{direction: 'down', element: "My friend number 7"}])
-    //        .nodeify(done);
-    //
-    //});
->>>>>>> master
 
     it('should redirect to Pending', function (done) {
 
