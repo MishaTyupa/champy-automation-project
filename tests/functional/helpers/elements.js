@@ -3,7 +3,7 @@
     module.exports = {
         loginButton : 'com.example.ivan.champy_v2:id/login_button',
         champyLogo : 'com.example.ivan.champy_v2:id/Champy_image',
-        fbLoginField : 'com.facebook.katana:id/login_username',
+        fbEmailField : 'com.facebook.katana:id/login_username',
         fbPasswordField : 'com.facebook.katana:id/login_password',
         fbLoginButton : 'com.facebook.katana:id/login_login',
         challengeBar : 'com.example.ivan.champy_v2:id/textView2',
@@ -23,11 +23,22 @@
         pendingFriends : 'Pending',
         otherFriends : 'Other',
         labelGeneral : 'General:',
+        labelName : 'Name',
+        labelAvatar : 'Avatar',
+        labelDeleteAccount : 'Delete Account',
         labelNotifications : 'Notifications:',
         labelLegal : 'Legal:',
+        labelAbout: 'About',
         switchPushNotifications : 'com.example.ivan.champy_v2:id/switch1',
         switchChallengeRequests : 'com.example.ivan.champy_v2:id/switch2',
         switchAcceptedYourChallenge : 'com.example.ivan.champy_v2:id/switch3',
-        switchChallengeEnd : 'com.example.ivan.champy_v2:id/switch4'
+        switchChallengeEnd : 'com.example.ivan.champy_v2:id/switch4',
+        labelPrivacyPolice : 'Privacy Police',
+        labelTerms : 'Terms',
+        labelContactUs : 'Contact Us',
+        textPrivacyPolicy : 'com.example.ivan.champy_v2:id/textView1',
+        screenSettings : 'com.example.ivan.champy_v2:id/back_settings',
+        fbEmail : 'skill.bereg@gmail.com',
+        fbPassword : 'federikofellini1920'
 
     };
