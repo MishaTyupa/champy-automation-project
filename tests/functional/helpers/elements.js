@@ -1,6 +1,8 @@
 'use strict';
 
     module.exports = {
+        fbEmail : 'skill.bereg@gmail.com',
+        fbPassword : 'federikofellini1920',
         loginButton : 'com.example.ivan.champy_v2:id/login_button',
         champyLogo : 'com.example.ivan.champy_v2:id/Champy_image',
         fbEmailField : 'com.facebook.katana:id/login_username',
@@ -37,8 +39,5 @@
         labelTerms : 'Terms',
         labelContactUs : 'Contact Us',
         textPrivacyPolicy : 'com.example.ivan.champy_v2:id/textView1',
-        screenSettings : 'com.example.ivan.champy_v2:id/back_settings',
-        fbEmail : 'skill.bereg@gmail.com',
-        fbPassword : 'federikofellini1920'
-
+        screenSettings : 'com.example.ivan.champy_v2:id/back_settings'
     };

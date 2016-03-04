@@ -127,10 +127,15 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-    it('Challenges label is present in the sidemenu', function (done) {
+    it('should open sidemenu', function (done) {
         this.driver
             .elementByClassName(elements.sidemenuButton)
             .click()
+            .nodeify(done);
+    });
+
+    it('Challenges label is present in the sidemenu', function (done) {
+        this.driver
             .elementByName(elements.labelChallenges)
             .should.eventually.exist
             .isDisplayed()
@@ -190,7 +195,6 @@ describe("android native", function () {
             .elementByName(elements.labelFriends)
             .click()
             .nodeify(done);
-
     });
 
     it('should open and close blured window in Friends', function (done) {
@@ -228,11 +232,11 @@ describe("android native", function () {
 
     it('should delete friend', function (done) {
         this.driver
-            .elementByName('My friend number 5')
+            .elementByName('My friend number 3')
             .click()
             .elementById(elements.deleteFriendButton)
             .click()
-            //      CHECKING IF DELETED ELEMENT EXISTS
+            //      CHECKING IF DELETED ELEMENT DOESN'T EXIST
             //     .should.not.exist
             //     .isDisplayed('My friend number 0')
             //     .execute("mobile: scroll", [{direction: 'down', element: "My friend number 7"}])
@@ -266,6 +270,15 @@ describe("android native", function () {
             .nodeify(done);
     });
 
+    it('should delete friend from Pending', function (done) {
+        this.driver
+            .elementByName('My friend number 3')
+            .click()
+            .elementById(elements.deleteFriendButton)
+            .click()
+            .nodeify(done);
+    });
+
     it('should redirect to Other', function (done) {
         this.driver
             .elementByName(elements.otherFriends)
@@ -292,6 +305,15 @@ describe("android native", function () {
             .nodeify(done);
     });
 
+    it('should delete friend from Other', function (done) {
+        this.driver
+            .elementByName('My friend number 3')
+            .click()
+            .elementById(elements.deleteFriendButton)
+            .click()
+            .nodeify(done);
+    });
+
     it('should enter Settings page', function (done) {
         this.driver
             .elementByClassName(elements.sidemenuButton)
@@ -309,7 +331,6 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-
     it('Name label in Settings', function (done) {
         this.driver
             .elementByName(elements.labelName)
@@ -325,6 +346,7 @@ describe("android native", function () {
             .isDisplayed()
             .nodeify(done);
     });
+
     it('Delete Account label in Settings', function (done) {
         this.driver
             .elementByName(elements.labelDeleteAccount)
@@ -340,6 +362,43 @@ describe("android native", function () {
             .isDisplayed()
             .nodeify(done);
     });
+
+    //it('should open Avatar page', function (done) {
+    //    this.driver
+    //        .elementById('com.example.ivan.champy_v2:id/avatar')
+    //        .click()
+    //        .nodeify(done);
+    //});
+    //
+    //it('should open camera', function (done) {
+    //    this.driver
+    //        .elementById('com.example.ivan.champy_v2:id/camera')
+    //        .click()
+    //        .nodeify(done);
+    //});
+    //
+    //it('should take photo from camera', function (done) {
+    //    this.driver
+    //        .elementById('com.lenovo.scg:id/shutter_button')
+    //        .sleep(2500)
+    //        .click()
+    //        .nodeify(done);
+    //});
+    //
+    //it('should save photo from camera', function (done) {
+    //    this.driver
+    //        .elementById('com.lenovo.scg:id/save')
+    //        .click()
+    //        .nodeify(done);
+    //});
+    //
+    //it('should open sidemenu', function (done) {
+    //    this.driver
+    //        .elementByClassName(elements.sidemenuButton)
+    //        .click()
+    //        .nodeify(done);
+    //});
+
 
     it('Turning on Push Notifications', function (done) {
         this.driver
