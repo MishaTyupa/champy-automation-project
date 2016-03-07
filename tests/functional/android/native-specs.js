@@ -18,7 +18,6 @@ describe("android native", function () {
         name: 'Champy App',
         tags: ['champy', 'azinecllc', 'appium', 'native', 'android']
     }));
-    var driver;
 
     afterEach(utils.afterEach);
     afterEach(utils.afterEachFailed);
@@ -52,7 +51,7 @@ describe("android native", function () {
         this.driver
             .elementById(elements.loginButton)
             .click()
-            .setImplicitWaitTimeout(60000)
+            .setImplicitWaitTimeout(5000)
             //.elementById(elements.fbEmailField)
             //.sendKeys(elements.fbEmail)
             //.click()
