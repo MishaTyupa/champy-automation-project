@@ -24,6 +24,7 @@
         deleteFriendButton : 'com.example.ivan.champy_v2:id/imageButton2',
         pendingFriends : 'Pending',
         otherFriends : 'Other',
+        otherFriendsList: 'android.widget.RelativeLayout',
         labelGeneral : 'General:',
         labelName : 'Name',
         labelAvatar : 'Avatar',
