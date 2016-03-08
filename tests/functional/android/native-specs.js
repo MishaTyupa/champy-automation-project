@@ -276,7 +276,7 @@ describe("android native", function () {
         var driver = this.driver;
         driver
             .elementByName(elements.otherFriends)
-            .elementsByClassName("android.widget.RelativeLayout")
+            .elementsByClassName(elements.otherFriendsList)
             .then(function (els) {
                 console.log(els);
                 return Q.all([
@@ -298,7 +298,7 @@ describe("android native", function () {
         var driver = this.driver;
         driver
             .elementByName(elements.otherFriends)
-            .elementsByClassName("android.widget.RelativeLayout")
+            .elementsByClassName(elements.otherFriendsList)
             .then(function (els) {
                 console.log(els);
                 return Q.all([
