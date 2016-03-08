@@ -2,6 +2,7 @@
 logs
 *.log
 .idea
+snapshots
 # Runtime data
 pids
 *.pid

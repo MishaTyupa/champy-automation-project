@@ -51,7 +51,7 @@ describe("android native", function () {
         this.driver
             .elementById(elements.loginButton)
             .click()
-            .setImplicitWaitTimeout(5000)
+            .setImplicitWaitTimeout(8000)
             //.elementById(elements.fbEmailField)
             //.sendKeys(elements.fbEmail)
             //.click()
@@ -272,34 +272,68 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-    //it('should scroll down', function (done) {
-    //    this.driver
-    //
-    //.nodeify(done);
-    //});
+    it('should scroll down', function (done) {
+        var driver = this.driver;
+        driver
+            .elementByName(elements.otherFriends)
+            .elementsByClassName("android.widget.RelativeLayout")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[15].getLocation(),
+                    els[1].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[1].y,
+                        duration: 2000
+                    });
+                })
+            })
+            .nodeify(done);
+    });
 
+    it('should scroll up', function (done) {
+        var driver = this.driver;
+        driver
+            .elementByName(elements.otherFriends)
+            .elementsByClassName("android.widget.RelativeLayout")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[1].getLocation(),
+                    els[15].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[1].y,
+                        duration: 2000
+                    });
+                })
+            })
+            .nodeify(done);
+    });
 
-
-
-    //
-    //it('should scroll up', function (done) {
-    //this.driver
-    //.elementByName('My friend number 6')
-    //.flick(0, 350, 50, function (err) {
-    //throw new Error(err);
-    //})
-    //.sleep(2000)
-    //.nodeify(done);
-    //});
-    //
-    //it('should delete friend from Other', function (done) {
-    //this.driver
-    //.elementByName('My friend number 3')
-    //.click()
-    //.elementById(elements.deleteFriendButton)
-    //.click()
-    //.nodeify(done);
-    //});
+//it('should scroll up', function (done) {
+//this.driver
+//.elementByName('My friend number 6')
+//.flick(0, 350, 50, function (err) {
+//throw new Error(err);
+//})
+//.sleep(2000)
+//.nodeify(done);
+//});
+//
+//it('should delete friend from Other', function (done) {
+//this.driver
+//.elementByName('My friend number 3')
+//.click()
+//.elementById(elements.deleteFriendButton)
+//.click()
+//.nodeify(done);
+//});
 
     it('should enter Settings page', function (done) {
         this.driver
@@ -577,5 +611,7 @@ describe("android native", function () {
             .isDisplayed()
             .nodeify(done);
     });
+
+
 });
 
