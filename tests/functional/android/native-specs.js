@@ -95,6 +95,48 @@ describe("android native", function () {
             .nodeify(done);
     });
 
+    it('should open side menu by swipe', function (done) {
+        var driver = this.driver;
+        driver
+            .elementsByClassName("android.widget.ImageView")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[3].getLocation(),
+                    els[0].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[0].y,
+                        duration: 500
+                    });
+                })
+            })
+            .nodeify(done);
+    });
+
+    it('should close side menu by swipe', function (done) {
+        var driver = this.driver;
+        driver
+            .elementsByClassName("android.widget.ImageView")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[0].getLocation(),
+                    els[3].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[0].y,
+                        duration: 500
+                    });
+                })
+            })
+            .nodeify(done);
+    });
+
     it('swiping slider to the right', function (done) {
         this.driver
             .elementById(elements.sliderCard)
@@ -103,6 +145,7 @@ describe("android native", function () {
             })
             .nodeify(done);
     });
+
 
     it('swiping slider to the left', function (done) {
         this.driver
@@ -275,7 +318,6 @@ describe("android native", function () {
     it('should scroll down', function (done) {
         var driver = this.driver;
         driver
-            .elementByName(elements.otherFriends)
             .elementsByClassName(elements.otherFriendsList)
             .then(function (els) {
                 console.log(els);
@@ -297,7 +339,6 @@ describe("android native", function () {
     it('should scroll up', function (done) {
         var driver = this.driver;
         driver
-            .elementByName(elements.otherFriends)
             .elementsByClassName(elements.otherFriendsList)
             .then(function (els) {
                 console.log(els);
@@ -316,24 +357,24 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-//it('should scroll up', function (done) {
-//this.driver
-//.elementByName('My friend number 6')
-//.flick(0, 350, 50, function (err) {
-//throw new Error(err);
-//})
-//.sleep(2000)
-//.nodeify(done);
-//});
-//
-//it('should delete friend from Other', function (done) {
-//this.driver
-//.elementByName('My friend number 3')
-//.click()
-//.elementById(elements.deleteFriendButton)
-//.click()
-//.nodeify(done);
-//});
+    //it('should scroll up', function (done) {
+    //this.driver
+    //.elementByName('My friend number 6')
+    //.flick(0, 350, 50, function (err) {
+    //throw new Error(err);
+    //})
+    //.sleep(2000)
+    //.nodeify(done);
+    //});
+    //
+    //it('should delete friend from Other', function (done) {
+    //this.driver
+    //.elementByName('My friend number 3')
+    //.click()
+    //.elementById(elements.deleteFriendButton)
+    //.click()
+    //.nodeify(done);
+    //});
 
     it('should enter Settings page', function (done) {
         this.driver
@@ -611,7 +652,6 @@ describe("android native", function () {
             .isDisplayed()
             .nodeify(done);
     });
-
-
+    
 });
 
