@@ -51,7 +51,7 @@ describe("android native", function () {
         this.driver
             .elementById(elements.loginButton)
             .click()
-            .setImplicitWaitTimeout(8000)
+            .setImplicitWaitTimeout(25000)
             //.elementById(elements.fbEmailField)
             //.sendKeys(elements.fbEmail)
             //.click()
@@ -166,12 +166,33 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-    it('should open sidemenu', function (done) {
-        this.driver
-            .elementByClassName(elements.sidemenuButton)
-            .click()
+    it('should open side menu by swipe', function (done) {
+        var driver = this.driver;
+        driver
+            .elementsByClassName("android.widget.ImageView")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[3].getLocation(),
+                    els[0].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[0].y,
+                        duration: 500
+                    });
+                })
+            })
             .nodeify(done);
     });
+
+    //it('should open sidemenu', function (done) {
+    //    this.driver
+    //        .elementByClassName(elements.sidemenuButton)
+    //        .click()
+    //        .nodeify(done);
+    //});
 
     it('Challenges label is present in the sidemenu', function (done) {
         this.driver
@@ -245,68 +266,12 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-    //it('should scroll down', function (done) {
-    //this.driver
-    //.elementByName('My friend number 3')
-    //.flick(0, -350, 50, function (err) {
-    //throw new Error(err);
-    //})
-    //.nodeify(done);
-    //});
-
-    //it('should scroll up', function (done) {
-    //this.driver
-    //.elementByName('My friend number 6')
-    //.flick(0, 350, 50, function (err) {
-    //throw new Error(err);
-    //})
-    //.sleep(2000)
-    //.nodeify(done);
-    //});
-    //
-    //it('should delete friend', function (done) {
-    //this.driver
-    //.elementByName('My friend number 3')
-    //.click()
-    //.elementById(elements.deleteFriendButton)
-    //.click()
-    //.nodeify(done);
-    //});
-
     it('should redirect to Pending', function (done) {
         this.driver
             .elementByName(elements.pendingFriends)
             .click()
             .nodeify(done);
     });
-
-    //it('should scroll down', function (done) {
-    //this.driver
-    //.elementByName('My friend number 3')
-    //.flick(0, -350, 50, function (err) {
-    //throw new Error(err);
-    //})
-    //.nodeify(done);
-    //});
-    //
-    //it('should scroll up', function (done) {
-    //this.driver
-    //.elementByName('My friend number 6')
-    //.flick(0, 350, 50, function (err) {
-    //throw new Error(err);
-    //})
-    //.sleep(2000)
-    //.nodeify(done);
-    //});
-    //
-    //it('should delete friend from Pending', function (done) {
-    //this.driver
-    //.elementByName('My friend number 3')
-    //.click()
-    //.elementById(elements.deleteFriendButton)
-    //.click()
-    //.nodeify(done);
-    //});
 
     it('should redirect to Other', function (done) {
         this.driver
@@ -356,25 +321,6 @@ describe("android native", function () {
             })
             .nodeify(done);
     });
-
-    //it('should scroll up', function (done) {
-    //this.driver
-    //.elementByName('My friend number 6')
-    //.flick(0, 350, 50, function (err) {
-    //throw new Error(err);
-    //})
-    //.sleep(2000)
-    //.nodeify(done);
-    //});
-    //
-    //it('should delete friend from Other', function (done) {
-    //this.driver
-    //.elementByName('My friend number 3')
-    //.click()
-    //.elementById(elements.deleteFriendButton)
-    //.click()
-    //.nodeify(done);
-    //});
 
     it('should enter Settings page', function (done) {
         this.driver
@@ -454,10 +400,33 @@ describe("android native", function () {
             .nodeify(done);
     });
 
+    it('should open side menu by swipe', function (done) {
+        var driver = this.driver;
+        driver
+            .elementsByClassName("android.widget.ImageView")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[3].getLocation(),
+                    els[0].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[0].y,
+                        duration: 500
+                    });
+                })
+            })
+            .nodeify(done);
+
+    });
+
     it('should go to Settings', function (done) {
         this.driver
-            .elementByClassName(elements.sidemenuButton)
-            .click()
+            .sleep(1500)
+            //.elementByClassName(elements.sidemenuButton)
+            //.click()
             .elementByName(elements.labelSettings)
             .click()
             .nodeify(done);
@@ -583,59 +552,69 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-    it('should open Privacy Policy', function (done) {
-        this.driver
-            .elementByName(elements.labelPrivacyPolicy)
-            .click()
-            .nodeify(done);
-    });
-
-    //   it('should scroll down in Privacy Policy', function (done) {
+    //it('should open Privacy Policy', function (done) {
     //    this.driver
-    //        .elementById(elements.textPrivacyPolicy)
-    //      .then(function (els) {
-    //       return Q.all([
-    //       els[7].getLocation(),
-    //       els[3].getLocation()
-    //       ]).then(function (locs) {
-    //        console.log('locs -->', locs);
-    //        return driver.swipe({
-    //         startX: locs[0].x, startY: locs[0].y,
-    //         endX: locs[1].x, endY: locs[1].y,
-    //         duration: 800
-    // });
+    //        .elementByName(elements.labelPrivacyPolicy)
+    //        .click()
+    //        .nodeify(done);
     //});
-    //    });
-    //   .nodeify(done);
-    //   });
+    //
+    //it('should open Terms', function (done) {
+    //    this.driver
+    //        .back()
+    //        .elementByName(elements.labelTerms)
+    //        .click()
+    //        .nodeify(done);
+    //});
+    //
+    //it('should open Contact us', function (done) {
+    //    this.driver
+    //        .back()
+    //        .elementByName(elements.labelContactUs)
+    //        .click()
+    //        .nodeify(done);
+    //});
+    //
+    //it('go back', function (done) {
+    //    this.driver
+    //        .back()
+    //        .nodeify(done);
+    //});
 
-    it('should open Terms', function (done) {
-        this.driver
-            .back()
-            .elementByName(elements.labelTerms)
-            .click()
-            .nodeify(done);
-    });
 
-    it('should open Contact us', function (done) {
-        this.driver
-            .back()
-            .elementByName(elements.labelContactUs)
-            .click()
+    it('should open side menu by swipe', function (done) {
+        var driver = this.driver;
+        driver
+            .elementsByClassName("android.widget.RelativeLayout")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[2].getLocation(),
+                    els[0].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[0].y,
+                        duration: 500
+                    });
+                })
+            })
             .nodeify(done);
     });
 
     it('should return to Main screen', function (done) {
-
         this.driver
-            .elementByClassName(elements.sidemenuButton)
-            .click()
+            //.elementByClassName(elements.sidemenuButton)
+            //.click()
             .elementByName(elements.labelChallenges)
             .click()
             .sleep(2000)
             .nodeify(done);
     });
+});
 
+/*
     it('should logout from app', function (done) {
         this.driver
             .elementByClassName(elements.sidemenuButton)
@@ -652,6 +631,5 @@ describe("android native", function () {
             .isDisplayed()
             .nodeify(done);
     });
-    
 });
-
+*/
