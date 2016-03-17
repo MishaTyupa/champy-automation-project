@@ -3,8 +3,13 @@
 
 var apps = require('../helpers/apps'),
     fs = require('fs'),
+    wd = require("wd"),
     utils = require('../helpers/utils'),
+    Q = require('q'),
+    actions = require('../helpers/actions'),
     elements = require('../helpers/elements');
+
+wd.addPromiseChainMethod('swipe', actions.swipe);
 
 describe("android native", function () {
     before(utils.before({
@@ -15,6 +20,7 @@ describe("android native", function () {
     }));
 
     afterEach(utils.afterEach);
+    afterEach(utils.afterEachFailed);
     after(utils.after);
 
     it('should run the app', function (done) {
@@ -32,30 +38,20 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-    it('should make screenshot of login screen', function (done) {
-        this.driver
-            .takeScreenshot().then(function (data) {
-                var base64Data = data.replace(/^data:image\/png;base64,/,"");
-                fs.writeFile("snapshots/out.png", base64Data, 'base64', function (err) {
-                    if (err) console.log(err);
-                });
-            })
-            .nodeify(done);
-    });
-
     it('should check text on login screen', function (done) {
         this.driver
             .elementByName('CHAMPY HELPS YOU IMPROVE')
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('CHAMPY HELPS YOU IMPROVE')
             .nodeify(done);
     });
+
 
     it('should login via Facebook', function (done) {
         this.driver
             .elementById(elements.loginButton)
             .click()
-            .setImplicitWaitTimeout(60000)
+            .setImplicitWaitTimeout(25000)
             //.elementById(elements.fbEmailField)
             //.sendKeys(elements.fbEmail)
             //.click()
@@ -73,7 +69,7 @@ describe("android native", function () {
             .isDisplayed()
             .elementByName('Challenges')
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Challenges')
             .nodeify(done);
     });
 
@@ -84,7 +80,7 @@ describe("android native", function () {
             .isDisplayed()
             .elementByName('Wins')
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Wins')
             .nodeify(done);
     });
 
@@ -95,7 +91,49 @@ describe("android native", function () {
             .isDisplayed()
             .elementByName('Total')
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Total')
+            .nodeify(done);
+    });
+
+    it('should open side menu by swipe', function (done) {
+        var driver = this.driver;
+        driver
+            .elementsByClassName("android.widget.ImageView")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[3].getLocation(),
+                    els[0].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[0].y,
+                        duration: 500
+                    });
+                })
+            })
+            .nodeify(done);
+    });
+
+    it('should close side menu by swipe', function (done) {
+        var driver = this.driver;
+        driver
+            .elementsByClassName("android.widget.ImageView")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[0].getLocation(),
+                    els[3].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[0].y,
+                        duration: 500
+                    });
+                })
+            })
             .nodeify(done);
     });
 
@@ -107,6 +145,7 @@ describe("android native", function () {
             })
             .nodeify(done);
     });
+
 
     it('swiping slider to the left', function (done) {
         this.driver
@@ -127,18 +166,39 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-    it('should open sidemenu', function (done) {
-        this.driver
-            .elementByClassName(elements.sidemenuButton)
-            .click()
+    it('should open side menu by swipe', function (done) {
+        var driver = this.driver;
+        driver
+            .elementsByClassName("android.widget.ImageView")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[3].getLocation(),
+                    els[0].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[0].y,
+                        duration: 500
+                    });
+                })
+            })
             .nodeify(done);
     });
+
+    //it('should open sidemenu', function (done) {
+    //    this.driver
+    //        .elementByClassName(elements.sidemenuButton)
+    //        .click()
+    //        .nodeify(done);
+    //});
 
     it('Challenges label is present in the sidemenu', function (done) {
         this.driver
             .elementByName(elements.labelChallenges)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Challenges')
             .nodeify(done);
     });
 
@@ -146,7 +206,7 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelFriends)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Friends')
             .nodeify(done);
     });
 
@@ -154,15 +214,14 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelHistory)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('History')
             .nodeify(done);
     });
 
     it('Settings label is present in the sidemenu', function (done) {
         this.driver
             .elementByName(elements.labelSettings)
-            .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Settings')
             .nodeify(done);
     });
 
@@ -170,7 +229,7 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelShare)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Share')
             .nodeify(done);
     });
 
@@ -178,7 +237,7 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelLogout)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Logout')
             .nodeify(done);
     });
 
@@ -207,74 +266,9 @@ describe("android native", function () {
             .nodeify(done);
     });
 
-    it('should scroll down', function (done) {
-        this.driver
-            .elementByName('My friend number 3')
-            .flick(0, -350, 50, function (err) {
-                throw new Error(err);
-            })
-            .nodeify(done);
-    });
-
-    //it('should check + is not present', function (done) {
-    //        .nodeify(done);
-    //});
-
-    it('should scroll up', function (done) {
-        this.driver
-            .elementByName('My friend number 6')
-            .flick(0, 350, 50, function (err) {
-                throw new Error(err);
-            })
-            .sleep(2000)
-            .nodeify(done);
-    });
-
-    it('should delete friend', function (done) {
-        this.driver
-            .elementByName('My friend number 3')
-            .click()
-            .elementById(elements.deleteFriendButton)
-            .click()
-            //      CHECKING IF DELETED ELEMENT DOESN'T EXIST
-            //     .should.not.exist
-            //     .isDisplayed('My friend number 0')
-            //     .execute("mobile: scroll", [{direction: 'down', element: "My friend number 7"}])
-           .nodeify(done);
-
-    });
-
     it('should redirect to Pending', function (done) {
         this.driver
             .elementByName(elements.pendingFriends)
-            .click()
-            .nodeify(done);
-    });
-
-    it('should scroll down', function (done) {
-        this.driver
-            .elementByName('My friend number 3')
-            .flick(0, -350, 50, function (err) {
-                throw new Error(err);
-            })
-            .nodeify(done);
-    });
-
-    it('should scroll up', function (done) {
-        this.driver
-            .elementByName('My friend number 6')
-            .flick(0, 350, 50, function (err) {
-                throw new Error(err);
-            })
-            .sleep(2000)
-            .nodeify(done);
-    });
-
-    it('should delete friend from Pending', function (done) {
-        this.driver
-            .elementByName('My friend number 3')
-            .click()
-            .elementById(elements.deleteFriendButton)
             .click()
             .nodeify(done);
     });
@@ -287,30 +281,44 @@ describe("android native", function () {
     });
 
     it('should scroll down', function (done) {
-        this.driver
-            .elementByName('My friend number 3')
-            .flick(0, -350, 50, function (err) {
-                throw new Error(err);
+        var driver = this.driver;
+        driver
+            .elementsByClassName(elements.otherFriendsList)
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[15].getLocation(),
+                    els[1].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[1].y,
+                        duration: 2000
+                    });
+                })
             })
             .nodeify(done);
     });
 
     it('should scroll up', function (done) {
-        this.driver
-            .elementByName('My friend number 6')
-            .flick(0, 350, 50, function (err) {
-                throw new Error(err);
+        var driver = this.driver;
+        driver
+            .elementsByClassName(elements.otherFriendsList)
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[1].getLocation(),
+                    els[15].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[1].y,
+                        duration: 2000
+                    });
+                })
             })
-            .sleep(2000)
-            .nodeify(done);
-    });
-
-    it('should delete friend from Other', function (done) {
-        this.driver
-            .elementByName('My friend number 3')
-            .click()
-            .elementById(elements.deleteFriendButton)
-            .click()
             .nodeify(done);
     });
 
@@ -327,7 +335,7 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelGeneral)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('General:')
             .nodeify(done);
     });
 
@@ -335,7 +343,7 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelName)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Name')
             .nodeify(done);
     });
 
@@ -343,7 +351,7 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelAvatar)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Avatar')
             .nodeify(done);
     });
 
@@ -351,7 +359,7 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelDeleteAccount)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Delete Account')
             .nodeify(done);
     });
 
@@ -359,125 +367,139 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelNotifications)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Notifications:')
             .nodeify(done);
     });
 
-    //it('should open Avatar page', function (done) {
-    //    this.driver
-    //        .elementById('com.example.ivan.champy_v2:id/avatar')
-    //        .click()
-    //        .nodeify(done);
-    //});
-    //
-    //it('should open camera', function (done) {
-    //    this.driver
-    //        .elementById('com.example.ivan.champy_v2:id/camera')
-    //        .click()
-    //        .nodeify(done);
-    //});
-    //
-    //it('should take photo from camera', function (done) {
-    //    this.driver
-    //        .elementById('com.lenovo.scg:id/shutter_button')
-    //        .sleep(2500)
-    //        .click()
-    //        .nodeify(done);
-    //});
-    //
-    //it('should save photo from camera', function (done) {
-    //    this.driver
-    //        .elementById('com.lenovo.scg:id/save')
-    //        .click()
-    //        .nodeify(done);
-    //});
-    //
-    //it('should open sidemenu', function (done) {
-    //    this.driver
-    //        .elementByClassName(elements.sidemenuButton)
-    //        .click()
-    //        .nodeify(done);
-    //});
+    it('should open Avatar page', function (done) {
+        this.driver
+            .elementById('com.example.ivan.champy_v2:id/avatar')
+            .click()
+            .nodeify(done);
+    });
 
+    it('should open camera', function (done) {
+        this.driver
+            .elementById('com.example.ivan.champy_v2:id/camera')
+            .click()
+            .nodeify(done);
+    });
 
-    it('Turning on Push Notifications', function (done) {
+    it('should take photo from camera', function (done) {
+        this.driver
+            .elementById('com.lenovo.scg:id/shutter_button')
+            .sleep(2500)
+            .click()
+            .nodeify(done);
+    });
+
+    it('should save photo from camera', function (done) {
+        this.driver
+            .elementById('com.lenovo.scg:id/save')
+            .click()
+            .nodeify(done);
+    });
+
+    it('should open side menu by swipe', function (done) {
+        var driver = this.driver;
+        driver
+            .elementsByClassName("android.widget.ImageView")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[3].getLocation(),
+                    els[0].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[0].y,
+                        duration: 500
+                    });
+                })
+            })
+            .nodeify(done);
+
+    });
+
+    it('should go to Settings', function (done) {
+        this.driver
+            .sleep(1500)
+            //.elementByClassName(elements.sidemenuButton)
+            //.click()
+            .elementByName(elements.labelSettings)
+            .click()
+            .nodeify(done);
+    });
+
+    it('should change Name', function (done) {
+        var testName = 'test test';
+        this.driver
+            .elementByName(elements.labelName)
+            .click()
+            .elementById(elements.newNameField)
+            .sendKeys(testName)
+            .elementById(elements.applyName)
+            .click()
+            .elementById(elements.profileName)
+            .text().should.become(testName)
+            .nodeify(done);
+    });
+
+    it('Switch Push Notifications', function (done) {
         this.driver
             .elementById(elements.switchPushNotifications)
             .click()
             .nodeify(done);
     });
 
-    it('Turning on New Challenge Requests', function (done) {
+    it('Switch New Challenge Requests', function (done) {
         this.driver
             .elementById(elements.switchChallengeRequests)
             .click()
             .nodeify(done);
     });
 
-    it('Turning on Accepted Your Challenge', function (done) {
+    it('Switch Accepted Your Challenge', function (done) {
         this.driver
             .elementById(elements.switchAcceptedYourChallenge)
             .click()
             .nodeify(done);
     });
 
-    it('Turning on Challenge End', function (done) {
+    it('Switch Challenge End', function (done) {
         this.driver
             .elementById(elements.switchChallengeEnd)
             .click()
             .nodeify(done);
     });
 
-    it('Turning off Push Notifications', function (done) {
-        if(this.driver.elementById(elements.switchPushNotifications).isSelected()){
+    it('Switch Push Notifications', function (done) {
         this.driver
             .elementById(elements.switchPushNotifications)
             .click()
             .nodeify(done);
-        }
-        else {
-            console.log("Error")
-                .nodeify(done);
-        }
     });
 
-    it('Turning off New Challenge Requests', function (done) {
-        if(this.driver.elementById(elements.switchChallengeRequests).isSelected()){
-            this.driver
-                .elementById(elements.switchChallengeRequests)
-                .click()
-                .nodeify(done);
-        }
-        else {
-            console.log("Error")
-                .nodeify(done);
-        }
+    it('Switch New Challenge Requests', function (done) {
+        this.driver
+            .elementById(elements.switchChallengeRequests)
+            .click()
+            .nodeify(done);
     });
 
-    it('Turning off Accepted Your Challenge', function (done) {
-        if(this.driver.elementById(elements.switchAcceptedYourChallenge).isSelected()){
-            this.driver
-                .elementById(elements.switchAcceptedYourChallenge)
-                .click()
-                .nodeify(done);
-        }
-        else {
-            console.log("Error")
-                .nodeify(done);
-        }
+    it('Switch Accepted Your Challenge', function (done) {
+        this.driver
+            .elementById(elements.switchAcceptedYourChallenge)
+            .click()
+            .nodeify(done);
     });
 
-    it('Turning off Challenge End', function (done) {
-        if(this.driver.elementById(elements.switchChallengeEnd).isSelected()){
-            this.driver
-                .elementById(elements.switchChallengeEnd)
-                .click()
-                .nodeify(done);
-        }
-        else {
-            console.log("Error")
-                .nodeify(done);
-        }
+    it('Switch Challenge End', function (done) {
+        this.driver
+            .elementById(elements.switchChallengeEnd)
+            .click()
+            .nodeify(done);
     });
 
     it('should scroll down in Settings', function (done) {
@@ -494,7 +516,7 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelLegal)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Legal:')
             .nodeify(done);
     });
 
@@ -502,15 +524,15 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelAbout)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('About')
             .nodeify(done);
     });
 
-    it('Privacy Police label in Settings', function (done) {
+    it('Privacy Policy label in Settings', function (done) {
         this.driver
-            .elementByName(elements.labelPrivacyPolice)
+            .elementByName(elements.labelPrivacyPolicy)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Privacy Policy')
             .nodeify(done);
     });
 
@@ -518,7 +540,7 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelTerms)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Terms')
             .nodeify(done);
     });
 
@@ -526,55 +548,73 @@ describe("android native", function () {
         this.driver
             .elementByName(elements.labelContactUs)
             .should.eventually.exist
-            .isDisplayed()
+            .text().should.become('Contact Us')
             .nodeify(done);
     });
 
-    it('should open Privacy Police', function (done) {
-        this.driver
-            .elementByName(elements.labelPrivacyPolice)
-            .click()
-            .nodeify(done);
-    });
+    //it('should open Privacy Policy', function (done) {
+    //    this.driver
+    //        .elementByName(elements.labelPrivacyPolicy)
+    //        .click()
+    //        .nodeify(done);
+    //});
+    //
+    //it('should open Terms', function (done) {
+    //    this.driver
+    //        .back()
+    //        .elementByName(elements.labelTerms)
+    //        .click()
+    //        .nodeify(done);
+    //});
+    //
+    //it('should open Contact us', function (done) {
+    //    this.driver
+    //        .back()
+    //        .elementByName(elements.labelContactUs)
+    //        .click()
+    //        .nodeify(done);
+    //});
+    //
+    //it('go back', function (done) {
+    //    this.driver
+    //        .back()
+    //        .nodeify(done);
+    //});
 
-    it('should open Terms', function (done) {
-        this.driver
-            .back()
-            .elementByName(elements.labelTerms)
-            .click()
-            .nodeify(done);
-    });
 
-    it('should open Contact us', function (done) {
-        this.driver
-            .back()
-            .elementByName(elements.labelContactUs)
-            .click()
-            .nodeify(done);
-    });
-    /*
-    it('should scroll down in Privacy Policy', function (done) {
-        this.driver
-            .elementById(elements.textPrivacyPolicy)
-            .flick(0, -450, 50, function (err) {
-                throw new Error(err);
+    it('should open side menu by swipe', function (done) {
+        var driver = this.driver;
+        driver
+            .elementsByClassName("android.widget.RelativeLayout")
+            .then(function (els) {
+                console.log(els);
+                return Q.all([
+                    els[2].getLocation(),
+                    els[0].getLocation()
+                ]).then(function (loc) {
+                    console.log('loc --> ', loc);
+                    return driver.swipe({
+                        startX: loc[0].x, startY: loc[0].y,
+                        endX: loc[1].x, endY: loc[0].y,
+                        duration: 500
+                    });
+                })
             })
-            .setImplicitWaitTimeout(20000)
             .nodeify(done);
     });
-*/
 
     it('should return to Main screen', function (done) {
-
         this.driver
-            .elementByClassName(elements.sidemenuButton)
-            .click()
+            //.elementByClassName(elements.sidemenuButton)
+            //.click()
             .elementByName(elements.labelChallenges)
             .click()
             .sleep(2000)
             .nodeify(done);
     });
+});
 
+/*
     it('should logout from app', function (done) {
         this.driver
             .elementByClassName(elements.sidemenuButton)
@@ -592,4 +632,4 @@ describe("android native", function () {
             .nodeify(done);
     });
 });
-
+*/

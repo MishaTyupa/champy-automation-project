@@ -24,6 +24,7 @@
         deleteFriendButton : 'com.example.ivan.champy_v2:id/imageButton2',
         pendingFriends : 'Pending',
         otherFriends : 'Other',
+        otherFriendsList: 'android.widget.RelativeLayout',
         labelGeneral : 'General:',
         labelName : 'Name',
         labelAvatar : 'Avatar',
@@ -35,9 +36,13 @@
         switchChallengeRequests : 'com.example.ivan.champy_v2:id/switch2',
         switchAcceptedYourChallenge : 'com.example.ivan.champy_v2:id/switch3',
         switchChallengeEnd : 'com.example.ivan.champy_v2:id/switch4',
-        labelPrivacyPolice : 'Privacy Police',
+        labelPrivacyPolicy : 'Privacy Policy',
         labelTerms : 'Terms',
         labelContactUs : 'Contact Us',
         textPrivacyPolicy : 'com.example.ivan.champy_v2:id/textView1',
-        screenSettings : 'com.example.ivan.champy_v2:id/back_settings'
+        screenSettings : 'com.example.ivan.champy_v2:id/back_settings',
+        testName : 'test test',
+        newNameField : 'com.example.ivan.champy_v2:id/new_name',
+        applyName : 'com.example.ivan.champy_v2:id/imageButton4',
+        profileName : 'com.example.ivan.champy_v2:id/name'
     };
